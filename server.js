@@ -6,6 +6,9 @@ const port = 8080;
 // inciando o app
 const app = express();
 
+app.use(express.json());
+
+
 // conectando db
 mongoose.connect("mongodb://localhost:27017/nodeapi", {
     useNewUrlParser: true,
@@ -16,21 +19,10 @@ mongoose.connect("mongodb://localhost:27017/nodeapi", {
 requireDir('./src/models');
 
 
-const Product= mongoose.model('Product') 
-
-
 // portas da app 
-app.get('/', (req, res) => {
+app.use('/api',require('./src/routes'));
 
-    Product.create({
-        title:'roupa',
-        description:'azul',
-        url:'http://google.com'
-    });
-
-   return res.send('hello word');
-})
-
+//rotas
 app.listen(port, () => {
     console.log(`sevidor rodando na porta ${port}`);
 })
